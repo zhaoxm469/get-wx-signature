@@ -12,8 +12,8 @@ npm install -S get-wx-signature
 
 ``` js
 const getWxSignature = require('get-wx-signature')({
-    appid: 'xxxxx',
-    appsecret: 'xxxxxx'
+    appid: '换成您的appid',
+    appsecret: '换成您的appsecret'
 });
 
 // 实际工作中，可以把通过路由把数据返回给前端
