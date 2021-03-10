@@ -1,0 +1,28 @@
+{
+    "name": "get-wx-signature",
+    "version": "0.0.1",
+    "description": "获取微信签名",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "node",
+        "wx",
+        "signature"
+    ],
+    "author": "zxm",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^14.14.33"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/node-cache/node-cache.git"
+    },
+    "homepage": "https://github.com/node-cache/node-cache",
+    "dependencies": {
+        "sha1": "^1.1.1",
+        "zxm-node-cache": "0.0.1"
+    }
+}
