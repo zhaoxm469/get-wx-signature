@@ -1,6 +1,6 @@
 const getWxSign = require('../index')({
-    appid: 'wx5e6f4585c269088a',
-    appsecret: '2e0d3b8ba965555791f969662795668e'
+    appid: '换成您的appid',
+    appsecret: '换成您的appsecret'
 });
 
 (async()=>{
