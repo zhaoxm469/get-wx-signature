@@ -143,7 +143,7 @@ module.exports = function (conf) {
                         str = "jsapi_ticket=" + ticket + "noncestr=" + nonceStr + "timestamp=" + timestamp + "url=" + url;
                         signature = sha1(str);
                         return [2 /*return*/, {
-                                signature: signature, nonceStr: nonceStr, timestamp: timestamp, url: url, appId: conf.appid
+                                signature: signature, nonceStr: nonceStr, timestamp: timestamp, url: url, appId: conf.appid, ticket: ticket
                             }];
                 }
             });

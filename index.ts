@@ -102,7 +102,7 @@ module.exports = function (conf: wxConfig) {
         let signature = sha1(str)
 
         return {
-            signature, nonceStr, timestamp, url, appId: conf.appid
+            signature, nonceStr, timestamp, url, appId: conf.appid, ticket
         }
     }
 }
