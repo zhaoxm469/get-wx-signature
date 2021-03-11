@@ -140,7 +140,7 @@ module.exports = function (conf) {
                         nonceStr = getNonceStr();
                         timestamp = Math.round(new Date().getTime() / 1000);
                         url = hostName;
-                        str = 'jsapi_ticket=${ticket}&noncestr=${nonceStr}&timestamp=${timestamp}&url=${url}';
+                        str = "jsapi_ticket=" + ticket + "&noncestr=" + nonceStr + "&timestamp=" + timestamp + "&url=" + url;
                         signature = sha1(str);
                         return [2 /*return*/, {
                                 signature: signature, nonceStr: nonceStr, timestamp: timestamp, url: url, appId: conf.appid, ticket: ticket

@@ -97,7 +97,7 @@ module.exports = function (conf: wxConfig) {
         // 前端传递的URL
         let url = hostName
         // 对四个数据做字典序的排序
-        var str = 'jsapi_ticket=${ticket}&noncestr=${nonceStr}&timestamp=${timestamp}&url=${url}'
+        var str = `jsapi_ticket=${ticket}&noncestr=${nonceStr}&timestamp=${timestamp}&url=${url}`
         // 使用sha1第三方模块进行加密得到的就是签名
         let signature = sha1(str)
 
