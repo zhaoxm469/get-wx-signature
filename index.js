@@ -129,24 +129,40 @@ function get(path) {
 }
 module.exports = function (conf) {
     wxConfig = conf;
-    return function (hostName) {
-        return __awaiter(this, void 0, void 0, function () {
-            var ticket, nonceStr, timestamp, url, str, signature;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, getJsapi()];
-                    case 1:
-                        ticket = (_a.sent()).ticket;
-                        nonceStr = getNonceStr();
-                        timestamp = Math.round(new Date().getTime() / 1000);
-                        url = hostName;
-                        str = "jsapi_ticket=" + ticket + "&noncestr=" + nonceStr + "&timestamp=" + timestamp + "&url=" + url;
-                        signature = sha1(str);
-                        return [2 /*return*/, {
-                                signature: signature, nonceStr: nonceStr, timestamp: timestamp, url: url, appId: conf.appid, ticket: ticket
-                            }];
-                }
+    return {
+        getSignature: function (hostName) {
+            return __awaiter(this, void 0, void 0, function () {
+                var ticket, nonceStr, timestamp, url, str, signature;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, getJsapi()];
+                        case 1:
+                            ticket = (_a.sent()).ticket;
+                            nonceStr = getNonceStr();
+                            timestamp = Math.round(new Date().getTime() / 1000);
+                            url = hostName;
+                            str = "jsapi_ticket=" + ticket + "&noncestr=" + nonceStr + "&timestamp=" + timestamp + "&url=" + url;
+                            signature = sha1(str);
+                            return [2 /*return*/, {
+                                    signature: signature, nonceStr: nonceStr, timestamp: timestamp, url: url, appId: conf.appid, ticket: ticket
+                                }];
+                    }
+                });
             });
-        });
+        },
+        checkSignature: function (urlQuery) {
+            var signature = urlQuery.signature, timestamp = urlQuery.timestamp, nonce = urlQuery.nonce, echostr = urlQuery.echostr;
+            var scyptoString = sha1([wxConfig.token, timestamp, nonce].sort().join(''));
+            if (signature === scyptoString) {
+                return echostr;
+            }
+            else {
+                throw Error(JSON.stringify({
+                    msg: '请检查 signature === scyptoString ',
+                    urlQuery: urlQuery,
+                    scyptoString: scyptoString
+                }));
+            }
+        }
     };
 };
