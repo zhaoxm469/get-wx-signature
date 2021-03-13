@@ -1,6 +1,6 @@
 {
-    "name": "get-wx-signature",
-    "version": "0.0.1",
+    "name": "node-wx-signature",
+    "version": "0.1.0",
     "description": "利用node获取微信签名，用于前端调用JS SDK初始化",
     "main": "index.js",
     "scripts": {
@@ -18,9 +18,9 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/zhaoxm469/get-wx-signature.git"
+        "url": "git+https://github.com/zhaoxm469/node-wx-signature.git"
     },
-    "homepage": "https://github.com/zhaoxm469/get-wx-signature",
+    "homepage": "https://github.com/zhaoxm469/node-wx-signature",
     "dependencies": {
         "sha1": "^1.1.1",
         "zxm-node-cache": "0.0.1"
