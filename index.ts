@@ -2,12 +2,20 @@ const cache = require('zxm-node-cache')
 const sha1 = require('sha1');
 import http from "https";
 
-interface wxConfig {
+interface IwxConfig {
     appid: string
-    appsecret: string
+    appsecret: string,
+    token?:string
 }
 
-let wxConfig: wxConfig = {
+interface IurlQuery {
+    signature: string,
+    timestamp:number,
+    nonce:string,
+    echostr: string,
+}
+
+let wxConfig: IwxConfig = {
     appid:'',
     appsecret:''
 };
@@ -82,27 +90,42 @@ function get(path: any) {
 
 
 
-module.exports = function (conf: wxConfig) {
+module.exports = function (conf: IwxConfig) {
 
     wxConfig = conf;
 
-    return async function (hostName: any) {
-        // 微信服务器通讯,获取ticket
-        let { ticket } = await getJsapi();
+    return {
+        async getSignature(hostName:string){
+            // 微信服务器通讯,获取ticket
+            let { ticket } = await getJsapi();
 
-        // 随机数
-        let nonceStr = getNonceStr()
-        // 时间戳
-        let timestamp = Math.round(new Date().getTime() / 1000)
-        // 前端传递的URL
-        let url = hostName
-        // 对四个数据做字典序的排序
-        var str = `jsapi_ticket=${ticket}&noncestr=${nonceStr}&timestamp=${timestamp}&url=${url}`
-        // 使用sha1第三方模块进行加密得到的就是签名
-        let signature = sha1(str)
+            // 随机数
+            let nonceStr = getNonceStr()
+            // 时间戳
+            let timestamp = Math.round(new Date().getTime() / 1000)
+            // 前端传递的URL
+            let url = hostName
+            // 对四个数据做字典序的排序
+            var str = `jsapi_ticket=${ticket}&noncestr=${nonceStr}&timestamp=${timestamp}&url=${url}`
+            // 使用sha1第三方模块进行加密得到的就是签名
+            let signature = sha1(str)
 
-        return {
-            signature, nonceStr, timestamp, url, appId: conf.appid, ticket
+            return {
+                signature, nonceStr, timestamp, url, appId: conf.appid, ticket
+            }
+        },
+        checkSignature(urlQuery: IurlQuery ){
+            let { signature, timestamp, nonce, echostr } = urlQuery;
+            let scyptoString = sha1([wxConfig.token, timestamp, nonce].sort().join(''));
+            if (signature === scyptoString) {
+                return echostr
+            }else{
+                throw Error(JSON.stringify({
+                    msg: '请检查 signature === scyptoString ',
+                    urlQuery: urlQuery,
+                    scyptoString
+                } ))
+            }
         }
     }
 }
