@@ -5,30 +5,25 @@
 ## 安装
 
 ``` bash
-npm install -S get-wx-signature
+npm install -S node-wx-signature
 ```
 
 ## 使用
 
 ``` js
-const getWxSignature = require('get-wx-signature')({
+const wxSignature = require('node-wx-signature')({
     appid: '换成您的appid',
     appsecret: '换成您的appsecret'
 });
 
-// 实际工作中，可以把通过路由把数据返回给前端
+// 可以把通过路由把数据返回给前端
 (async () => {
-    // getWxSignature 接收一个参数，参数为必填项（前端路由地址 ）
-    // return object 对象
-    console.log(await getWxSignature('http://www.baidu.com'))
 
-    // 返回的数据
-    // {
-    //     signature: '996dbfc72be8c037bf227fecaa1d734ba68e13e3',
-    //     nonceStr: '4zOA4iNFwwXejepo',
-    //     timestamp: 1615393717,
-    //     url: 'http://www.baidu.com',
-    //     appId: 'wx5e6f4585c269088a'
-    // }
+    // 获取调用 微信js sdk 的校验信息
+    let sigData = await wxSignature.getSignature(url)
+
+    // 验证消息的确来自微信服务器,开发者在微信后台管理配置消息地址提交信息后，微信服务器将发送GET请求到填写的服务器地址URL上，把这作为返回值返回给微信服务器即可
+    let checkSignature = wxSignature.checkSignature(query);
+
 })();
 ```
